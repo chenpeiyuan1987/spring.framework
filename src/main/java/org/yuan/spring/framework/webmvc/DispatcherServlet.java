@@ -44,9 +44,9 @@ public class DispatcherServlet extends HttpServlet {
             doDispatch(req, resp);
         }
         catch (Exception ex) {
+            resp.getWriter().write("500");
             ex.printStackTrace();
         }
-
     }
 
     @Override
