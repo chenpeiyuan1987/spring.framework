@@ -10,15 +10,15 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class HandlerMapping {
     /**
-     *
+     * 控制器
      */
     private Object controller;
     /**
-     *
+     * 匹配器
      */
     private Pattern pattern;
     /**
-     *
+     * 执行方法
      */
     private Method method;
 

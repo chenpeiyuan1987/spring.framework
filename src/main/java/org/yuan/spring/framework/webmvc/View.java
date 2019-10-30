@@ -26,7 +26,7 @@ public class View {
         RandomAccessFile ra = new RandomAccessFile(this.viewFile, "r");
 
         try {
-            String line = null;
+            String line;
             while (null != (line = ra.readLine())) {
                 line = new String(line.getBytes("ISO-8859-1"), "UTF-8");
                 Pattern pattern = Pattern.compile("$\\{[^\\}]+\\}", Pattern.CASE_INSENSITIVE);

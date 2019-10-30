@@ -50,7 +50,7 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         context = new ApplicationContext(config.getInitParameter(LOCATION));
         initStrategies(context);
     }
