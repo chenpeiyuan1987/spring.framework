@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Locale;
 
 public class ViewResolver {
-    private final String DEFAULT_TEMPLATE_SUFFIX = ".html";
+    private final String DEFAULT_TEMPLATE_SUFFIX = ".htm";
 
     private File templateRootDir;
 

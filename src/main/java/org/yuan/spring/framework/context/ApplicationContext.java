@@ -85,7 +85,7 @@ public class ApplicationContext extends DefaultListableBeanFactory implements Be
 
             beanPostProcessor.postProcessAfterInitialization(instance, beanName);
 
-            pupulateBean(beanName, instance);
+            populateBean(beanName, instance);
 
             return this.factoryBeanInstanceCache.get(beanName).getWrappedInstance();
         }
@@ -114,7 +114,7 @@ public class ApplicationContext extends DefaultListableBeanFactory implements Be
         return null;
     }
 
-    private void pupulateBean(String beanName, Object instance) {
+    private void populateBean(String beanName, Object instance) {
         Class<?> clazz = instance.getClass();
         if(!(clazz.isAnnotationPresent(Controller.class)
             || clazz.isAnnotationPresent(Service.class))) {
@@ -133,9 +133,10 @@ public class ApplicationContext extends DefaultListableBeanFactory implements Be
             }
             field.setAccessible(true);
             try {
-                field.set(instance, this.factoryBeanInstanceCache.get(autowiredBeanName).getWrappedInstance());
+                //field.set(instance, this.factoryBeanInstanceCache.get(autowiredBeanName).getWrappedInstance());
+                field.set(instance, this.getBean(autowiredBeanName));
             }
-            catch (IllegalAccessException ex) {
+            catch (Exception ex) {
                 ex.printStackTrace();
             }
         }

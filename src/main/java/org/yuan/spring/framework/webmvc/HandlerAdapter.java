@@ -1,6 +1,6 @@
 package org.yuan.spring.framework.webmvc;
 
-import org.yuan.spring.framework.annotation.RequestMapping;
+import org.yuan.spring.framework.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +22,8 @@ public class HandlerAdapter {
         Annotation[][] pa = handlerMapping.getMethod().getParameterAnnotations();
         for (int i = 0; i < pa.length; i++) {
             for (Annotation a : pa[i]) {
-                if (a instanceof RequestMapping) {
-                    String paramName = ((RequestMapping) a).value();
+                if (a instanceof RequestParam) {
+                    String paramName = ((RequestParam) a).value();
                     if (!"".equals(paramName.trim())) {
                         paramMapping.put(paramName, i);
                     }

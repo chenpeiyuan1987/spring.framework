@@ -40,7 +40,7 @@ public class BeanDefinitionReader {
     }
 
     private void doScanner(String scanPackage) {
-        URL url = this.getClass().getClassLoader().getResource("/" + scanPackage.replace("\\.", "/"));
+        URL url = this.getClass().getClassLoader().getResource("/" + scanPackage.replaceAll("\\.", "/"));
         File classPath = new File(url.getFile());
         for(File file : classPath.listFiles()) {
             if(file.isDirectory()) {
@@ -64,10 +64,10 @@ public class BeanDefinitionReader {
                 if(beanClass.isInterface()) {
                     continue;
                 }
-                result.add(doCreateBeanDefinition(toLowerFirstCase(beanClass.getSimpleName()),beanClass.getName()));
+                result.add(doCreateBeanDefinition(beanClass.getName(), beanClass.getName()));
                 Class<?>[] interfaces = beanClass.getInterfaces();
                 for(Class<?> i : interfaces) {
-
+                    result.add(doCreateBeanDefinition(i.getName(), beanClass.getName()));
                 }
             }
         }

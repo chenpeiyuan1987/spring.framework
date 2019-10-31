@@ -29,12 +29,12 @@ public class View {
             String line;
             while (null != (line = ra.readLine())) {
                 line = new String(line.getBytes("ISO-8859-1"), "UTF-8");
-                Pattern pattern = Pattern.compile("$\\{[^\\}]+\\}", Pattern.CASE_INSENSITIVE);
+                Pattern pattern = Pattern.compile("\\$\\{[^}]+\\}", Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(line);
 
                 while (matcher.find()) {
                     String paramName = matcher.group();
-                    paramName = paramName.replaceAll("$\\{|\\}", "");
+                    paramName = paramName.replaceAll("\\$\\{|\\}", "");
                     Object paramValue = model.get(paramName);
                     if (null == paramValue) {
                         continue;

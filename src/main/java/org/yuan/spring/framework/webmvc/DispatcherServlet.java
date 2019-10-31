@@ -114,9 +114,9 @@ public class DispatcherServlet extends HttpServlet {
                     }
 
                     RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
-                    String regex = ("/" + baseUrl + requestMapping.value()
+                    String regex = ("/" + baseUrl + requestMapping.value())
                             .replaceAll("\\*", ".*")
-                            .replaceAll("/+", "/"));
+                            .replaceAll("/+", "/");
                     Pattern pattern = Pattern.compile(regex);
                     this.handlerMappings.add(new HandlerMapping(controller, pattern, method));
                     log.info("Mapping: " + regex + ", " + method);

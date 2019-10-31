@@ -19,7 +19,7 @@ public class MatcherTests {
 
     @Test
     public void testReplaceFirst() {
-        String line = "Hello ${name}. ${other} I'm ${sex}!";
+        String line = "<h1>Hello ${name}. I'm ${age}.</h1>";
         Pattern pattern = Pattern.compile("\\$\\{[^}]+\\}");
         Matcher matcher = pattern.matcher(line);
 
