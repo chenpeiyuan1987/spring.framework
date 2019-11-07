@@ -14,7 +14,7 @@ public class MethodInvocation implements JoinPoint {
     private List<Object> interceptorsAndDynamicMethodMatchers;
 
     private Map<String, Object> userAttributes;
-    private int currentInterceptorIndex = -1;
+    private int currentInterceptorIndex = 0;
 
     public MethodInvocation(Object proxy, Method method, Object target,
                             Class<?> targetClass, Object[] arguments,
@@ -28,10 +28,10 @@ public class MethodInvocation implements JoinPoint {
     }
 
     public Object proceed() throws Throwable {
-        if (currentInterceptorIndex == interceptorsAndDynamicMethodMatchers.size() - 1) {
+        if (currentInterceptorIndex >= interceptorsAndDynamicMethodMatchers.size()) {
             return method.invoke(target, arguments);
         }
-        Object interceptorOrInterceptionAdvice = interceptorsAndDynamicMethodMatchers.get(++currentInterceptorIndex);
+        Object interceptorOrInterceptionAdvice = interceptorsAndDynamicMethodMatchers.get(currentInterceptorIndex++);
         if (interceptorOrInterceptionAdvice instanceof MethodInterceptor) {
             MethodInterceptor mi = (MethodInterceptor) interceptorOrInterceptionAdvice;
             return mi.invoke(this);

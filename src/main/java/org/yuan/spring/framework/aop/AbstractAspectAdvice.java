@@ -2,7 +2,7 @@ package org.yuan.spring.framework.aop;
 
 import java.lang.reflect.Method;
 
-public abstract class AbstractAspectAdvice {
+public abstract class AbstractAspectAdvice implements Advice {
 
     private Method aspectMethod;
     private Object aspectTarget;

@@ -53,8 +53,12 @@ public class AdvisedSupport {
     }
 
     private void parse() {
+        String pointCut = config.getPointCut();
+        String pointCutForClass = pointCut.substring(0, pointCut.lastIndexOf("(") - 4);
+        pointCutClassPattern = Pattern.compile("class " + pointCutForClass.substring(pointCutForClass.lastIndexOf(" ") + 1));
+        methodCache = new HashMap<>();
+        Pattern pattern = Pattern.compile(pointCut);
 
-        Pattern pattern = Pattern.compile("");
         try {
             Class aspectClass = Class.forName(config.getAspectClass());
             Map<String, Method> aspectMethods = new HashMap<>();
@@ -70,12 +74,33 @@ public class AdvisedSupport {
                 Matcher matcher = pattern.matcher(methodString);
                 if (matcher.matches()) {
                     List<Object> advices = new LinkedList<>();
-                    // TODO
+                    if (isNotBlank(config.getAspectBefore())) {
+                        advices.add(new MethodBeforeAdvice(aspectMethods.get(config.getAspectBefore()), aspectClass.newInstance()));
+                    }
+                    if (isNotBlank(config.getAspectAfter())) {
+                        advices.add(new AfterReturnAdvice(aspectMethods.get(config.getAspectAfter()), aspectClass.newInstance()));
+                    }
+                    if (isNotBlank(config.getAspectAfterThrow())) {
+                        AfterThrowAdvice afterThrowAdvice = new AfterThrowAdvice(aspectMethods.get(config.getAspectAfterThrow()), aspectClass.newInstance());
+                        afterThrowAdvice.setThrowName(config.getAspectAfterThrowingName());
+                        advices.add(afterThrowAdvice);
+                    }
+                    methodCache.put(m, advices);
                 }
             }
         }
         catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private boolean isNotBlank(String str) {
+        if (str == null) {
+            return false;
+        }
+        if ("".equals(str.trim())) {
+            return false;
+        }
+        return true;
     }
 }
