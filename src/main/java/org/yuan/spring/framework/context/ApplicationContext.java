@@ -3,6 +3,10 @@ package org.yuan.spring.framework.context;
 import org.yuan.spring.framework.annotation.Autowired;
 import org.yuan.spring.framework.annotation.Controller;
 import org.yuan.spring.framework.annotation.Service;
+import org.yuan.spring.framework.aop.AdvisedSupport;
+import org.yuan.spring.framework.aop.AopConfig;
+import org.yuan.spring.framework.aop.AopProxy;
+import org.yuan.spring.framework.aop.JdkDynamicAopProxy;
 import org.yuan.spring.framework.beans.*;
 import org.yuan.spring.framework.core.BeanFactory;
 
@@ -105,6 +109,15 @@ public class ApplicationContext extends DefaultListableBeanFactory implements Be
 
             Class<?> clazz = Class.forName(className);
             Object instance = clazz.newInstance();
+
+            AdvisedSupport config = instantionAopConfig(beanDefinition);
+            config.setTarget(instance);
+            config.setTargetClass(clazz);
+
+            if (config.pointCutMatch()) {
+                instance = createProxy(config).getProxy();
+            }
+
             this.factoryBeanObjectCache.put(beanDefinition.getFactoryBeanName(), instance);
             return instance;
         }
@@ -112,6 +125,25 @@ public class ApplicationContext extends DefaultListableBeanFactory implements Be
             ex.printStackTrace();
         }
         return null;
+    }
+
+    private AopProxy createProxy(AdvisedSupport config) {
+        Class targetClass = config.getTargetClass();
+        if (targetClass.getInterfaces().length > 0) {
+            return new JdkDynamicAopProxy(config);
+        }
+        throw new RuntimeException("Target class must implement interface.");
+    }
+
+    private AdvisedSupport instantionAopConfig(BeanDefinition beanDefinition) {
+        AopConfig config = new AopConfig();
+        config.setPointCut(reader.getConfig().getProperty("pointCut"));
+        config.setAspectClass(reader.getConfig().getProperty("aspectClass"));
+        config.setAspectAfter(reader.getConfig().getProperty("aspectAfter"));
+        config.setAspectBefore(reader.getConfig().getProperty("aspectBefore"));
+        config.setAspectAfterThrow(reader.getConfig().getProperty("aspectAfterThrow"));
+        config.setAspectAfterThrowingName(reader.getConfig().getProperty("aspectAfterThrowingName"));
+        return new AdvisedSupport(config);
     }
 
     private void populateBean(String beanName, Object instance) {
