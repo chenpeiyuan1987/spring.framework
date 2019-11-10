@@ -24,7 +24,7 @@ public abstract class AbstractAspectAdvice implements Advice {
                     args[i] = joinPoint;
                     continue;
                 }
-                if (paramTypes[i] == Throwable.class) {
+                if (Throwable.class.isAssignableFrom(paramTypes[i])) {
                     args[i] = ex;
                     continue;
                 }

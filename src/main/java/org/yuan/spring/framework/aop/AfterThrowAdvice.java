@@ -19,7 +19,7 @@ public class AfterThrowAdvice extends AbstractAspectAdvice implements MethodInte
         try {
             return mi.proceed();
         }
-        catch (Throwable ex) {
+        catch (Exception ex) {
             invokeAdviceMethod(mi, null, ex.getCause());
             throw ex;
         }

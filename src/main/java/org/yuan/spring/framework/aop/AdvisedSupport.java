@@ -54,7 +54,7 @@ public class AdvisedSupport {
 
     private void parse() {
         String pointCut = config.getPointCut();
-        String pointCutForClass = pointCut.substring(0, pointCut.lastIndexOf("(") - 4);
+        String pointCutForClass = pointCut.substring(0, pointCut.lastIndexOf("(") - 5);
         pointCutClassPattern = Pattern.compile("class " + pointCutForClass.substring(pointCutForClass.lastIndexOf(" ") + 1));
         methodCache = new HashMap<>();
         Pattern pattern = Pattern.compile(pointCut);
@@ -82,7 +82,7 @@ public class AdvisedSupport {
                     }
                     if (isNotBlank(config.getAspectAfterThrow())) {
                         AfterThrowAdvice afterThrowAdvice = new AfterThrowAdvice(aspectMethods.get(config.getAspectAfterThrow()), aspectClass.newInstance());
-                        afterThrowAdvice.setThrowName(config.getAspectAfterThrowingName());
+                        afterThrowAdvice.setThrowName(config.getAspectAfterThrowName());
                         advices.add(afterThrowAdvice);
                     }
                     methodCache.put(m, advices);

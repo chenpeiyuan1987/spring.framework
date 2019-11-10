@@ -2,6 +2,7 @@ package org.yuan.spring.framework.demo;
 
 import org.junit.Test;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -11,6 +12,29 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class MatcherTests {
+
+    private String poingCut = "public .* org\\.yuan\\.spring\\.framework\\.demo\\..*ServiceImpl\\..*\\(.*\\)";
+
+    @Test
+    public void testMatchClass() {
+        String pointCutForClass = "class " + poingCut.substring(poingCut.lastIndexOf(" ") + 1, poingCut.lastIndexOf("(") - 5);
+        Class clazz = UserServiceImpl.class;
+        System.out.println(pointCutForClass);
+        System.out.println(clazz.toString());
+
+        assertThat(clazz.toString().matches(pointCutForClass), is(true));
+    }
+
+    @Test
+    public void testMatchMethod() {
+        Pattern pattern = Pattern.compile(poingCut);
+        Class clazz = UserServiceImpl.class;
+        for (Method method : clazz.getDeclaredMethods()) {
+            System.out.println(method.toString());
+            Matcher matcher = pattern.matcher(method.toString());
+            assertThat(matcher.matches(), is(true));
+        }
+    }
 
     @Test
     public void test() {

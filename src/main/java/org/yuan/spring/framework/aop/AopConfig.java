@@ -10,6 +10,6 @@ public class AopConfig {
     private String aspectAfter;
     private String aspectClass;
     private String aspectAfterThrow;
-    private String aspectAfterThrowingName;
+    private String aspectAfterThrowName;
 
 }

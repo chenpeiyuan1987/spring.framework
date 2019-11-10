@@ -32,6 +32,42 @@ public class UserController {
         return null;
     }
 
+    @RequestMapping("/add")
+    public ModelAndView add(HttpServletRequest req, HttpServletResponse res) {
+        userService.add(null);
+        try {
+            res.getWriter().write("0");
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @RequestMapping("/alt")
+    public ModelAndView alt(HttpServletRequest req, HttpServletResponse res) {
+        userService.alt(null);
+        try {
+            res.getWriter().write("0");
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @RequestMapping("/del")
+    public ModelAndView del(HttpServletRequest req, HttpServletResponse res) {
+        userService.del(null);
+        try {
+            res.getWriter().write("0");
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
     @RequestMapping("/page")
     public ModelAndView page(@RequestParam("name") String name) {
         Map<String, String> model = new HashMap<>();

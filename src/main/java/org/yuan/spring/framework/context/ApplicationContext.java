@@ -117,8 +117,8 @@ public class ApplicationContext extends DefaultListableBeanFactory implements Be
             if (config.pointCutMatch()) {
                 instance = createProxy(config).getProxy();
             }
-
             this.factoryBeanObjectCache.put(beanDefinition.getFactoryBeanName(), instance);
+
             return instance;
         }
         catch (Exception ex) {
@@ -142,7 +142,7 @@ public class ApplicationContext extends DefaultListableBeanFactory implements Be
         config.setAspectAfter(reader.getConfig().getProperty("aspectAfter"));
         config.setAspectBefore(reader.getConfig().getProperty("aspectBefore"));
         config.setAspectAfterThrow(reader.getConfig().getProperty("aspectAfterThrow"));
-        config.setAspectAfterThrowingName(reader.getConfig().getProperty("aspectAfterThrowingName"));
+        config.setAspectAfterThrowName(reader.getConfig().getProperty("aspectAfterThrowName"));
         return new AdvisedSupport(config);
     }
 
